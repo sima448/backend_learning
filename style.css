@@ -1,0 +1,360 @@
+
+            * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .button-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .button-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .button-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+        
+        .button-desc {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            color: #ddd;
+            line-height: 1.5;
+        }
+        
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            outline: none;
+            color: white;
+            margin: 5px;
+        }
+        
+        /* Button 1: Gradient Shift */
+        .btn-gradient {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background-size: 200% 200%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-gradient:hover {
+            background-position: 100% 100%;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Button 2: 3D Press */
+        .btn-3d {
+            background: #ff6b6b;
+            box-shadow: 0 6px 0 #d35454, 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-3d:active {
+            box-shadow: 0 2px 0 #d35454, 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(4px);
+        }
+        
+        /* Button 3: Border Pulse */
+        .btn-border-pulse {
+            background: transparent;
+            color: #4ecdc4;
+            border: 2px solid #4ecdc4;
+        }
+        
+        .btn-border-pulse:hover {
+            animation: pulse 1.5s infinite;
+            background: rgba(78, 205, 196, 0.1);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(78, 205, 196, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0); }
+        }
+        
+        /* Button 4: Neon Glow */
+        .btn-neon {
+            background: transparent;
+            color: #ff00ff;
+            border: 2px solid #ff00ff;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        
+        .btn-neon:hover {
+            background: #ff00ff;
+            color: white;
+            box-shadow: 0 0 10px #ff00ff, 0 0 40px #ff00ff;
+        }
+        
+        /* Button 5: Social Media */
+        .btn-social {
+            background: #3b5998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-social:hover {
+            background: #2d4373;
+        }
+        
+        /* Button 6: Glass Morphism */
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+        }
+        
+        /* Button 7: Icon Grow */
+        .btn-icon-grow {
+            background: #6c5ce7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-icon-grow:hover i {
+            transform: scale(1.3);
+        }
+        
+        .btn-icon-grow i {
+            transition: transform 0.3s ease;
+        }
+        
+        /* Button 8: Shine Effect */
+        .btn-shine {
+            background: linear-gradient(to right, #ff8a00 0%, #da1b60 100%);
+            background-size: 200% auto;
+        }
+        
+        .btn-shine:hover {
+            background-position: right center;
+        }
+        
+        /* Button 9: Double Border */
+        .btn-double-border {
+            background: transparent;
+            color: #00ff99;
+            border: 2px solid #00ff99;
+            box-shadow: 0 0 0 2px white inset;
+        }
+        
+        .btn-double-border:hover {
+            background: #00ff99;
+            color: #000;
+        }
+        
+        /* Button 10: Flip */
+        .btn-flip {
+            perspective: 1000px;
+            background: #ff9f43;
+        }
+        
+        .btn-flip:hover {
+            transform: rotateY(15deg);
+        }
+        
+        /* Button 11: Liquid Fill */
+        .btn-liquid {
+            background: transparent;
+            color: #00b4d8;
+            border: 2px solid #00b4d8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-liquid:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: #00b4d8;
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+        
+        .btn-liquid:hover:before {
+            width: 100%;
+        }
+        
+        .btn-liquid:hover {
+            color: white;
+        }
+        
+        /* Button 12: Bounce */
+        .btn-bounce {
+            background: #ff6b6b;
+        }
+        
+        .btn-bounce:hover {
+            animation: bounce 0.5s;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            80% { transform: translateY(-5px); }
+        }
+        
+        /* Button 13: Gradient Border */
+        .btn-gradient-border {
+            background: transparent;
+            color: white;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+        
+        .btn-gradient-border:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            z-index: -1;
+            border-radius: 5px;
+        }
+        
+        .btn-gradient-border:hover:before {
+            background: linear-gradient(45deg, #4ecdc4, #ff6b6b);
+        }
+        
+        /* Button 14: Text Reveal */
+        .btn-text-reveal {
+            background: #6a89cc;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-text-reveal span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-text-reveal:hover span {
+            transform: translateY(-100%);
+        }
+        
+        .btn-text-reveal:after {
+            content: 'Hover Effect';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-text-reveal:hover:after {
+            transform: translateY(-100%);
+        }
+        
+        /* Button 15: Magnetic */
+        .btn-magnetic {
+            background: #e84393;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-magnetic span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-magnetic:hover span {
+            transform: translate(5px, -5px);
+        }
+        
+        /* Micro Banner */
+        .micro-banner {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }

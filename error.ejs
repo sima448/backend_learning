@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>404 — Pagina non trovata</title>
+  <meta name="description" content="Ops! La pagina che cerchi non esiste. Torna alla home o prova una ricerca." />
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Crect width='100%25' height='100%25' fill='%230b1220'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='120' fill='%23ffffff'%3E404%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="../stylesheets/error.css" />
+  <!-- Icone Material Symbols via CSS fallback (solo per la stellina/sole/luna) -->
+  <style>
+    @font-face{
+      font-family:"Material Symbols Outlined";
+      src: url(data:font/woff2;base64,d09GMgABAAAAAAOkAAsAAAAABpQAAAP/AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA) format("woff2");
+      /* Nota: font ridotto; useremo emoji fallback se non carica */
+      font-weight:400; font-style:normal; font-display:swap
+    }
+  </style>
+</head>
+<body class="palette-aurora" data-theme="dark" aria-live="polite">
+  <canvas class="starfield" aria-hidden="true"></canvas>
+  <div class="bg-gradient" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="card" role="group" aria-label="Pagina 404">
+      <div class="blob one" aria-hidden="true"></div>
+      <div class="blob two" aria-hidden="true"></div>
+
+      <div class="util">
+        <button class="palette" id="palette" aria-label="Cambia palette colore" title="Cambia palette">🎨</button>
+        <button class="toggle" id="theme" aria-label="Cambia tema scuro/chiaro" title="Tema scuro/chiaro">☾</button>
+      </div>
+
+      <div class="inner">
+        <h1 class="code" data-text="404" aria-label="Errore 404">404</h1>
+        <p class="title">Pagina non trovata <%= error %></p>
+        <p class="muted">Forse il link è stato spostato, rinominato o non esiste più. Torna alla Home o prova una ricerca.</p>
+
+        <div class="actions">
+          <a class="btn" href="/" aria-label="Torna alla Home">🏠 Home</a>
+          <a class="btn secondary" href="mailto:info@example.com" aria-label="Contattaci">✉️ Contattaci</a>
+          <button class="btn ghost" id="surprise" aria-label="Sorpresa">✨ Sorpresa</button>
+        </div>
+
+        <form class="search" role="search" aria-label="Cerca nel sito" onsubmit="return runSearch(event)">
+          <input id="q" type="search" placeholder="Cerca tra le pagine…" aria-label="Campo di ricerca">
+          <button class="btn secondary" type="submit" aria-label="Cerca">🔎 Cerca</button>
+        </form>
+        <div class="chips" aria-label="Suggerimenti">
+          <button class="chip" data-q="Portfolio">Portfolio</button>
+          <button class="chip" data-q="Chi siamo">Chi siamo</button>
+          <button class="chip" data-q="Servizi">Servizi</button>
+          <button class="chip" data-q="Contatti">Contatti</button>
+          <button class="chip" data-q="FAQ">FAQ</button>
+        </div>
+
+        <div class="foot" aria-label="Link utili">
+          <span>💡 Consiglio: premi ↑ ↑ ↓ ↓ ← → ← → B A</span>
+          <div class="links">
+            <a href="/">Homepage</a>
+            <a href="/mappa-del-sito">Mappa del sito</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/assistenza">Assistenza</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== Starfield minimal ===== */
+    const canvas = document.querySelector("canvas.starfield");
+    const ctx = canvas.getContext("2d");
+    let stars = [], W, H, mouse = {x:0,y:0}, tick = 0;
+
+    function size(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight }
+    addEventListener("resize", size, {passive:true}); size();
+
+    function initStars(n=140){
+      stars = Array.from({length:n}, () => ({
+        x: Math.random()*W, y: Math.random()*H, z: Math.random()*1+0.2,
+        r: Math.random()*1.2+0.2, vx:(Math.random()-.5)*0.2, vy:(Math.random()-.5)*0.2
+      }));
+    }
+    initStars();
+
+    addEventListener("mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY }, {passive:true});
+
+    function loop(){
+      tick++;
+      ctx.clearRect(0,0,W,H);
+      for(const s of stars){
+        // leggero parallax col mouse
+        const px = (mouse.x/W - .5) * 6 * s.z;
+        const py = (mouse.y/H - .5) * 6 * s.z;
+        s.x += s.vx + px*0.002; s.y += s.vy + py*0.002;
+        if(s.x< -10) s.x=W+10; if(s.x>W+10) s.x=-10;
+        if(s.y< -10) s.y=H+10; if(s.y>H+10) s.y=-10;
+
+        // bagliore pulsante
+        const glow = 0.4 + Math.sin((tick/30)+s.x)*0.3;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = `hsla(${200 + s.z*80}, 90%, ${70 + glow*20}%, ${0.45 + s.z*0.3})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    /* ===== Ricerca simulata ===== */
+    function runSearch(e){
+      e.preventDefault();
+      const term = document.getElementById("q").value.trim();
+      if(!term){ toast("Inserisci un termine di ricerca."); return false; }
+      // Qui potresti reindirizzare a /search?q=...
+      toast(`Cerco “${term}”...`); 
+      setTimeout(()=>location.href = `/search?q=${encodeURIComponent(term)}`, 600);
+      return false;
+    }
+    document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+      const v = c.getAttribute("data-q"); document.getElementById("q").value = v; document.getElementById("q").focus();
+    }));
+
+    /* ===== Theme & palette ===== */
+    const themeBtn = document.getElementById("theme");
+    const palettes = ["palette-aurora","palette-sunset","palette-forest","palette-ocean"];
+    const paletteBtn = document.getElementById("palette");
+    function setTheme(t){ document.body.dataset.theme = t; document.documentElement.style.colorScheme = t; themeBtn.textContent = t==="dark" ? "☾" : "☀"; localStorage.setItem("theme404", t) }
+    function nextPalette(){
+      const cur = palettes.find(p => document.body.classList.contains(p));
+      const idx = palettes.indexOf(cur); document.body.classList.remove(cur);
+      const next = palettes[(idx+1)%palettes.length]; document.body.classList.add(next);
+      localStorage.setItem("palette404", next);
+      toast("Palette cambiata");
+    }
+    themeBtn.addEventListener("click", ()=> setTheme(document.body.dataset.theme==="dark" ? "light" : "dark"));
+    paletteBtn.addEventListener("click", nextPalette);
+
+    // persist
+    (function(){
+      const t = localStorage.getItem("theme404"); if(t) setTheme(t);
+      const p = localStorage.getItem("palette404"); if(p && palettes.includes(p)){ document.body.classList.remove(...palettes); document.body.classList.add(p); }
+    })();
+
+    /* ===== Toast minimal ===== */
+    let toastEl;
+    function toast(msg){
+      if(!toastEl){
+        toastEl = document.createElement("div");
+        Object.assign(toastEl.style,{
+          position:"fixed", bottom:"18px", left:"50%", transform:"translateX(-50%)", background:"rgba(0,0,0,.6)",
+          color:"#fff", padding:"10px 14px", borderRadius:"10px", backdropFilter:"blur(8px)", border:"1px solid rgba(255,255,255,.15)", zIndex:1000, fontSize:"14px"
+        });
+        document.body.appendChild(toastEl);
+      }
+      toastEl.textContent = msg; toastEl.style.opacity="0"; toastEl.style.transition="opacity .15s ease"; requestAnimationFrame(()=> toastEl.style.opacity="1");
+      clearTimeout(toastEl._t); toastEl._t = setTimeout(()=> toastEl.style.opacity="0", 1300);
+    }
+
+    /* ===== Sorpresa ===== */
+    document.getElementById("surprise").addEventListener("click", () => {
+      const code = document.querySelector(".code");
+      code.animate([{filter:"drop-shadow(0 0 0 rgba(255,255,255,0))"},{filter:"drop-shadow(0 0 40px var(--glow))"}], {duration:420, iterations:2, direction:"alternate"});
+      confettiBurst();
+      toast("✨ Abbracadabra!");
+    });
+
+    function confettiBurst(){
+      // confetti ultra-leggero con emoji
+      const n = 26;
+      for(let i=0;i<n;i++){
+        const s = document.createElement("div");
+        s.textContent = ["★","✦","✧","✺","✼","❖","❀"][Math.floor(Math.random()*7)];
+        Object.assign(s.style,{
+          position:"fixed", left: (Math.random()*100)+"vw", top:"-10vh", fontSize:(Math.random()*18+12)+"px",
+          transform:`rotate(${Math.random()*360}deg)`, zIndex:999, pointerEvents:"none"
+        });
+        document.body.appendChild(s);
+        const tx = (Math.random()*40 - 20)+"vw";
+        s.animate([{transform:s.style.transform, top:"-10vh"},{transform:`translate(${tx},0) rotate(${Math.random()*720-360}deg)`, top:"110vh"}], {duration: 1500+Math.random()*800, easing:"cubic-bezier(.2,.6,.2,1)"})
+        .onfinish = ()=> s.remove();
+      }
+    }
+
+    /* ===== Konami code ===== */
+    const seq = [38,38,40,40,37,39,37,39,66,65]; let pos=0;
+    addEventListener("keydown", e=>{
+      if(e.keyCode===seq[pos]) pos++; else pos= (e.keyCode===seq[0]?1:0);
+      if(pos===seq.length){ pos=0; toast("Modalità Hyper!"); hyperMode(); }
+    });
+    function hyperMode(){
+      document.querySelector(".card").animate([{transform:"scale(1)"},{transform:"scale(1.02)"}], {duration:240, direction:"alternate", iterations:4});
+      for(const b of document.querySelectorAll(".blob")) b.animate([{opacity:.35},{opacity:.6}], {duration:2000, direction:"alternate", iterations:2});
+      confettiBurst();
+    }
+
+    /* ===== Accessibilità: focus visibile ===== */
+    document.addEventListener("keydown", e=>{
+      if(e.key === "Tab"){ document.documentElement.classList.add("show-focus"); }
+    }, {once:true});
+    const styleFocus = document.createElement("style");
+    styleFocus.textContent = `.show-focus .btn:focus,.show-focus .toggle:focus,.show-focus .palette:focus,.show-focus input:focus,.show-focus .chip:focus{outline:2px solid var(--accent); outline-offset:2px}`;
+    document.head.appendChild(styleFocus);
+  </script>
+</body>
+</html>
